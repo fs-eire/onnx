@@ -144,12 +144,12 @@ ONNX_OPERATOR_SET_SCHEMA(
             0,
             "boxes",
             "An input tensor with shape [num_batches, spatial_dimension, 4]. The single box data format is indicated by center_point_box.",
-            "tensor(float)")
+            "T")
         .Input(
             1,
             "scores",
             "An input tensor with shape [num_batches, num_classes, spatial_dimension]",
-            "tensor(float)")
+            "T")
         .Input(
             2,
             "max_output_boxes_per_class",
@@ -160,13 +160,13 @@ ONNX_OPERATOR_SET_SCHEMA(
             3,
             "iou_threshold",
             "Float representing the threshold for deciding whether boxes overlap too much with respect to IOU. It is scalar. Value range [0, 1]. Default to 0.",
-            "tensor(float)",
+            "T",
             OpSchema::Optional)
         .Input(
             4,
             "score_threshold",
             "Float representing the threshold for deciding when to remove boxes based on score. It is a scalar.",
-            "tensor(float)",
+            "T",
             OpSchema::Optional)
         .Output(
             0,
@@ -181,6 +181,10 @@ ONNX_OPERATOR_SET_SCHEMA(
             "1 - the box data is supplied as [x_center, y_center, width, height]. Mostly used for Pytorch models.",
             AttributeProto::INT,
             static_cast<int64_t>(0))
+        .TypeConstraint(
+            "T",
+            {"tensor(float16)", "tensor(float)"},
+            "Constrain float16 or float.")
         .SetDoc(NonMaxSuppression_doc)
         .TypeAndShapeInferenceFunction([](InferenceContext& ctx) {
           // Type inference - Output is always of type INT64

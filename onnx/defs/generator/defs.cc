@@ -727,6 +727,7 @@ ONNX_OPERATOR_SET_SCHEMA(
             "T",
             {"tensor(float)",
              "tensor(double)",
+             "tensor(float16)",
              "tensor(int16)",
              "tensor(int32)",
              "tensor(int64)"},
